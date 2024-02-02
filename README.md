@@ -1,8 +1,8 @@
 # Unity Offline Depth Of Field
 
-High Quality Offline Depth of Field.
+High-Quality Offline Depth of Field.
 
-This has none of the short comings of regular Depth of Field effects, and it even works with transparent materials/objects. It works by simply capturing the scene from many different angles in a circle, looking towards the focal point, and accumulating the captures into a render target which then gets saved to the disk.
+This has none of the shortcomings of regular Depth-of-field effects, and it even works with transparent materials/objects. It works by simply capturing the scene from many different angles in a circle, looking towards the focal point, and accumulating the captures into a render target which then gets saved to the disk.
 
 ![Render](GithubContent/Render.png)
 
