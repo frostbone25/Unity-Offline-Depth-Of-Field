@@ -1,0 +1,53 @@
+#define THREAD_GROUP_SIZE_X 8
+#define THREAD_GROUP_SIZE_Y 8
+
+//|||||||||||||||||||||||||||||||||||||| VARIABLES ||||||||||||||||||||||||||||||||||||||
+//|||||||||||||||||||||||||||||||||||||| VARIABLES ||||||||||||||||||||||||||||||||||||||
+//|||||||||||||||||||||||||||||||||||||| VARIABLES ||||||||||||||||||||||||||||||||||||||
+
+//Texture2D<float4> AverageBufferA;
+//Texture2D<float4> AverageBufferB;
+
+//RWTexture2D<float4> Write;
+
+RWTexture2D<float4> Read;
+RWTexture2D<float4> Write;
+
+float Scalar;
+
+float3 aces(float3 x)
+{
+    float a = 2.51;
+    float b = 0.03;
+    float c = 2.43;
+    float d = 0.59;
+    float e = 0.14;
+    return clamp((x * (a * x + b)) / (x * (c * x + d) + e), 0.0, 1.0);
+}
+
+//||||||||||||||||||||||||||||| ComputeShader_AverageBuffers |||||||||||||||||||||||||||||
+//||||||||||||||||||||||||||||| ComputeShader_AverageBuffers |||||||||||||||||||||||||||||
+//||||||||||||||||||||||||||||| ComputeShader_AverageBuffers |||||||||||||||||||||||||||||
+
+#pragma kernel ComputeShader_AverageBuffers
+[numthreads(THREAD_GROUP_SIZE_X, THREAD_GROUP_SIZE_Y, 1)]
+void ComputeShader_AverageBuffers(uint3 id : SV_DispatchThreadID)
+{
+    //float3 averageBufferA = AverageBufferA[id.xy].rgb;
+    //float3 averageBufferB = AverageBufferB[id.xy].rgb;
+    //float3 averagedBuffers = (averageBufferA + averageBufferB) * 0.5f;
+
+    //Write[id.xy] = float4(averagedBuffers, 1);
+
+    //float3 bufferA = Read[id.xy].rgb;
+    //float3 bufferB = Write[id.xy].rgb;
+    //float3 averagedBuffers = (bufferA + bufferB) * 0.5f;
+    //averagedBuffers = max(0.0f, averagedBuffers);
+
+    //Write[id.xy] = float4(averagedBuffers, Write[id.xy].a);
+
+    Write[id.xy] += max(0.0f, Read[id.xy]) * Scalar;
+    Write[id.xy] = float4(Write[id.xy].rgb, 1);
+    Write[id.xy] = max(0.0f, Write[id.xy]);
+    //Write[id.xy] += max(0.0f, float4(aces(Read[id.xy].rgb) * Scalar, 1 * Scalar));
+}
